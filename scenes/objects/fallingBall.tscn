@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://btrnd8ngxcq3r"]
+
+[ext_resource type="Script" path="res://scenes/objects/fallingBall.gd" id="1_rq7xo"]
+[ext_resource type="AudioStream" uid="uid://cd7wg2c5paibq" path="res://assets/audio/8bitEffects/bounce.mp3" id="2_euq61"]
+[ext_resource type="AudioStream" uid="uid://fis17daar526" path="res://assets/audio/8bitEffects/gainMoney.mp3" id="3_id23x"]
+[ext_resource type="Texture2D" uid="uid://d2wcpu7rma4sv" path="res://assets/sprites/ball.png" id="4_las8s"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_pwyj7"]
+bounce = 0.5
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ch0kg"]
+radius = 16.0
+
+[node name="ballBody" type="RigidBody2D" groups=["ball"]]
+z_index = 2
+physics_material_override = SubResource("PhysicsMaterial_pwyj7")
+gravity_scale = 0.5
+contact_monitor = true
+max_contacts_reported = 100
+script = ExtResource("1_rq7xo")
+
+[node name="boingSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_euq61")
+volume_db = -13.46
+
+[node name="moneySound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_id23x")
+volume_db = -6.559
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-4.17233e-07, -1.43051e-06)
+scale = Vector2(2, 2)
+texture = ExtResource("4_las8s")
+
+[node name="ballShape" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ch0kg")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

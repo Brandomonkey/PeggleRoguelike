@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://m3kb1tcsb0re"]
+
+[ext_resource type="Script" path="res://scenes/objects/collisionObj.gd" id="1_ken5g"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ihvoi"]
+radius = 8.0
+
+[node name="collBody" type="StaticBody2D" groups=["coll_objects"]]
+script = ExtResource("1_ken5g")
+
+[node name="collShape" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ihvoi")

@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://6vxfohsl143s"]
+
+[ext_resource type="Script" path="res://scenes/objects/selector.gd" id="1_ibv8l"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r4j64"]
+radius = 64.0
+
+[node name="Selector" type="Area2D"]
+script = ExtResource("1_ibv8l")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_r4j64")

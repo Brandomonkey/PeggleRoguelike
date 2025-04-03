@@ -1,0 +1,78 @@
+[gd_scene load_steps=5 format=3 uid="uid://da20g0seireym"]
+
+[ext_resource type="Script" path="res://scenes/menus/menu.gd" id="1_q4u25"]
+[ext_resource type="Texture2D" uid="uid://c7vuxscm3j5rx" path="res://assets/sprites/steelTexture.webp" id="2_bv8yc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qfhaw"]
+font_size = 40
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hxat0"]
+size = Vector2(579, 360)
+
+[node name="Node2D" type="Node2D"]
+z_index = 2
+script = ExtResource("1_q4u25")
+
+[node name="Sprite1" type="Sprite2D" parent="."]
+position = Vector2(352, 544)
+scale = Vector2(0.967185, 2.62222)
+texture = ExtResource("2_bv8yc")
+
+[node name="Label" type="Label" parent="Sprite1"]
+offset_left = -223.0
+offset_top = -34.0
+offset_right = 223.0
+offset_bottom = 34.0
+label_settings = SubResource("LabelSettings_qfhaw")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Area2D" type="Area2D" parent="Sprite1"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite1/Area2D"]
+position = Vector2(3.05176e-05, -3.05176e-05)
+shape = SubResource("RectangleShape2D_hxat0")
+
+[node name="Sprite2" type="Sprite2D" parent="."]
+position = Vector2(960, 544)
+scale = Vector2(0.967185, 2.62222)
+texture = ExtResource("2_bv8yc")
+
+[node name="Label" type="Label" parent="Sprite2"]
+offset_left = -223.0
+offset_top = -34.0
+offset_right = 223.0
+offset_bottom = 34.0
+label_settings = SubResource("LabelSettings_qfhaw")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Area2D" type="Area2D" parent="Sprite2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2/Area2D"]
+position = Vector2(3.05176e-05, -3.05176e-05)
+shape = SubResource("RectangleShape2D_hxat0")
+
+[node name="Sprite3" type="Sprite2D" parent="."]
+position = Vector2(1568, 544)
+scale = Vector2(0.967185, 2.62222)
+texture = ExtResource("2_bv8yc")
+
+[node name="Label" type="Label" parent="Sprite3"]
+offset_left = -223.0
+offset_top = -34.0
+offset_right = 223.0
+offset_bottom = 34.0
+label_settings = SubResource("LabelSettings_qfhaw")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Area2D" type="Area2D" parent="Sprite3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite3/Area2D"]
+position = Vector2(3.05176e-05, -3.05176e-05)
+shape = SubResource("RectangleShape2D_hxat0")
+
+[connection signal="input_event" from="Sprite1/Area2D" to="." method="_on_input_event_1"]
+[connection signal="input_event" from="Sprite2/Area2D" to="." method="_on_input_event_2"]
+[connection signal="input_event" from="Sprite3/Area2D" to="." method="_on_input_event_3"]

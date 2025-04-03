@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhm6w4eqc8l6t"]
+
+[ext_resource type="Script" path="res://scenes/objects/collisionObjects/collision_object.gd" id="1_5kn5v"]
+
+[sub_resource type="Animation" id="Animation_dw87t"]
+resource_name = "Bump"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0mscf"]
+_data = {
+"Bump": SubResource("Animation_dw87t")
+}
+
+[node name="collisionObject" type="StaticBody2D" groups=["coll_objects"]]
+script = ExtResource("1_5kn5v")
+
+[node name="anim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_0mscf")
+}

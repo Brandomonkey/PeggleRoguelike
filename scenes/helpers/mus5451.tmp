@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://0hekv80m7dkk"]
+
+[ext_resource type="Script" path="res://scenes/helpers/music_player.gd" id="1_15xqq"]
+
+[node name="musicPlayer" type="AudioStreamPlayer"]
+volume_db = -5.0
+script = ExtResource("1_15xqq")
+
+[node name="musicLayer5" type="AudioStreamPlayer" parent="."]
+volume_db = -5.0
+
+[node name="musicLayer10" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0
+
+[connection signal="finished" from="." to="." method="_on_finished"]

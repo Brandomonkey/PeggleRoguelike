@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://m3kb1tcsb0re"]
+
+[ext_resource type="Script" path="res://scenes/objects/collisionObjects/circlePeg.gd" id="1_hmfuj"]
+[ext_resource type="Texture2D" uid="uid://ctm4ixhhqh0w1" path="res://assets/sprites/CirclePegOutline.png" id="2_cw3s3"]
+[ext_resource type="Texture2D" uid="uid://cxpoqcwaiu7bj" path="res://assets/sprites/CirclePegFilling.png" id="3_wwq68"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gkije"]
+radius = 8.0
+
+[node name="collBody" type="CollisionShape2D" groups=["coll_objects"]]
+shape = SubResource("CircleShape2D_gkije")
+script = ExtResource("1_hmfuj")
+
+[node name="Outline" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-2.98023e-08, -2.98023e-07)
+scale = Vector2(2, 2)
+texture = ExtResource("2_cw3s3")
+
+[node name="Filling" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-2.98023e-08, 2.08616e-07)
+scale = Vector2(2, 2)
+texture = ExtResource("3_wwq68")

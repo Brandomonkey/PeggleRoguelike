@@ -1,0 +1,65 @@
+[gd_scene load_steps=4 format=3 uid="uid://dafynbmmatmhe"]
+
+[ext_resource type="Script" path="res://scenes/objects/number_pop_up.gd" id="1_seby6"]
+
+[sub_resource type="Animation" id="Animation_xlxvx"]
+resource_name = "Pop Up"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LabelContainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -25)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LabelContainer:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.1, 1.1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LabelContainer:modulate:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 0.406126),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oo4qx"]
+_data = {
+"Pop Up": SubResource("Animation_xlxvx")
+}
+
+[node name="numberPopUp" type="Node2D"]
+script = ExtResource("1_seby6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_oo4qx")
+}
+
+[node name="LabelContainer" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="LabelContainer"]
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+text = "text"
+horizontal_alignment = 1
+vertical_alignment = 1

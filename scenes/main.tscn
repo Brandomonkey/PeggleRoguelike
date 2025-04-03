@@ -1,0 +1,133 @@
+[gd_scene load_steps=11 format=3 uid="uid://cwdubov25slj5"]
+
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_wsmuf"]
+[ext_resource type="AudioStream" uid="uid://blgcborusdy58" path="res://assets/audio/Hooray Sound Effect.mp3" id="2_xft5e"]
+[ext_resource type="Texture2D" uid="uid://ci8wagxhf7sui" path="res://assets/sprites/brickTexture.png" id="3_2h4vr"]
+[ext_resource type="Texture2D" uid="uid://c7vuxscm3j5rx" path="res://assets/sprites/steelTexture.webp" id="4_3got4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ub2se"]
+size = Vector2(1080, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aieg1"]
+size = Vector2(1080, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3hefr"]
+size = Vector2(420, 1080)
+
+[sub_resource type="LabelSettings" id="LabelSettings_v30o0"]
+font_size = 36
+
+[sub_resource type="LabelSettings" id="LabelSettings_rc2uw"]
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_03flg"]
+font_size = 60
+font_color = Color(1, 0, 0, 1)
+outline_size = 25
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_wsmuf")
+
+[node name="happySound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_xft5e")
+volume_db = -21.549
+
+[node name="Resetter" type="Area2D" parent="."]
+position = Vector2(648, 1072)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Resetter"]
+position = Vector2(312, -4)
+shape = SubResource("RectangleShape2D_ub2se")
+
+[node name="TopBorder" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopBorder"]
+position = Vector2(960, -8)
+shape = SubResource("RectangleShape2D_aieg1")
+
+[node name="LeftBorder" type="StaticBody2D" parent="."]
+
+[node name="Shape" type="CollisionShape2D" parent="LeftBorder"]
+position = Vector2(210, 540)
+shape = SubResource("RectangleShape2D_3hefr")
+
+[node name="Sprite2D" type="Sprite2D" parent="LeftBorder/Shape"]
+position = Vector2(-9.53674e-07, 2.44139e-06)
+scale = Vector2(1.68, 4.32)
+texture = ExtResource("3_2h4vr")
+
+[node name="RightBorder" type="StaticBody2D" parent="."]
+
+[node name="Shape" type="CollisionShape2D" parent="RightBorder"]
+position = Vector2(1710, 540)
+shape = SubResource("RectangleShape2D_3hefr")
+
+[node name="Sprite2D" type="Sprite2D" parent="RightBorder/Shape"]
+position = Vector2(-8.03471e-05, 3.2959e-05)
+scale = Vector2(1.68, 4.32)
+texture = ExtResource("3_2h4vr")
+
+[node name="LabelBackdrop" type="Sprite2D" parent="."]
+position = Vector2(209.5, 112)
+scale = Vector2(0.696028, 0.577778)
+texture = ExtResource("4_3got4")
+
+[node name="Money" type="Label" parent="."]
+offset_left = 17.0
+offset_top = 16.0
+offset_right = 400.0
+offset_bottom = 79.0
+text = "Bank Account: $0"
+label_settings = SubResource("LabelSettings_v30o0")
+vertical_alignment = 1
+
+[node name="MoneyEarned" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 80.0
+offset_right = 400.0
+offset_bottom = 143.0
+text = "Money Earned: $0"
+label_settings = SubResource("LabelSettings_v30o0")
+vertical_alignment = 1
+
+[node name="DropCost" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 144.0
+offset_right = 400.0
+offset_bottom = 207.0
+text = "Cost to Drop: $0"
+label_settings = SubResource("LabelSettings_v30o0")
+vertical_alignment = 1
+
+[node name="LevelBackdrop" type="Sprite2D" parent="."]
+position = Vector2(1710, 216)
+scale = Vector2(0.697755, 1.15556)
+texture = ExtResource("4_3got4")
+
+[node name="Level" type="Label" parent="."]
+offset_left = 1517.0
+offset_top = 16.0
+offset_right = 1904.0
+offset_bottom = 416.0
+label_settings = SubResource("LabelSettings_rc2uw")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameOver" type="Sprite2D" parent="."]
+visible = false
+z_index = 2
+position = Vector2(960, 536)
+scale = Vector2(2.25, 1)
+texture = ExtResource("4_3got4")
+
+[node name="Label" type="Label" parent="GameOver"]
+offset_left = -284.0
+offset_top = -168.0
+offset_right = 287.0
+offset_bottom = 168.0
+text = "GAME OVER BITCH"
+label_settings = SubResource("LabelSettings_03flg")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="Resetter" to="." method="_on_resetter_body_entered"]
