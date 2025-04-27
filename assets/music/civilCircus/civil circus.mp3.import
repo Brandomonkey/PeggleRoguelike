@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://2x1bon5fkkhb"
+path="res://.godot/imported/civil circus.mp3-fe415a2639875d9c6b1b5be883b6456a.mp3str"
+
+[deps]
+
+source_file="res://assets/music/civilCircus/civil circus.mp3"
+dest_files=["res://.godot/imported/civil circus.mp3-fe415a2639875d9c6b1b5be883b6456a.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://btj3gjo2kpc7q"
+path="res://.godot/imported/Pirate Pachinko.mp3-eb66b2f119de813d05728d5e0fad6597.mp3str"
+
+[deps]
+
+source_file="res://assets/music/piratePachinko/Pirate Pachinko.mp3"
+dest_files=["res://.godot/imported/Pirate Pachinko.mp3-eb66b2f119de813d05728d5e0fad6597.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
