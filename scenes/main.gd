@@ -1,8 +1,9 @@
 extends Node2D
+class_name Main
 
 const upgrades = preload("res://scenes/helpers/upgrades/upgrades.gd")
 const functions = preload("res://scenes/helpers/functions.gd")
-const levels = preload("res://scenes/levels/levels.gd")
+
 const menuScene = preload("res://scenes/menus/menu.tscn")
 const ballScene = preload("res://scenes/objects/fallingBall.tscn")
 const baskScene = preload("res://scenes/objects/basket.tscn")
@@ -25,7 +26,7 @@ var moneyEarned = 0
 var dropCost = 1
 var upgradeWeights = [5,4,3,2,1]
 
-var currLevel = levels.check_level(money)
+var currLevel = Levels.check_level(money)
 var lastLevel: String
 var currentOptions: Array
 var gameOver = false
@@ -39,18 +40,22 @@ func _ready():
 		"x": ($RightBorder/Shape.position.x - ($RightBorder/Shape.shape.size.x) / 2) - ($LeftBorder/Shape.position.x + ($LeftBorder/Shape.shape.size.x) / 2),
 		"y": $LeftBorder/Shape.shape.size.y * 3 / 4
 	}
-	basketArr.append(baskScene.instantiate()) # Instantiate basket
-	basketArr.back().label = "Gain $10"
-	basketArr.back().function = "+"
-	basketArr.back().value = 10
-	add_child(basketArr.back())
-	basketArr.back().position = Vector2(gameplay_viewport.left,1080)
+	var newBasket = baskScene.instantiate()
+	basketArr.append(newBasket)
+	newBasket.label = "Gain $10"
+	newBasket.function = Callable(newBasket, "add_money")
+	newBasket.params = {"ogNode": self, "value": 10}
+	add_child(newBasket)
+	newBasket.position = Vector2(gameplay_viewport.left,1080)
+
 	music = musicScene.instantiate() # Instantiate music
 	add_child(music)
+	
 	menu = menuScene.instantiate() # Instantiate menu
 	add_child(menu)
-	currentOptions = upgrades.setPegs.set_options(menu)
-	menu.function = "randomize_pegs"
+	currentOptions = SetPegs.set_options(menu)
+	menu.function = Callable(menu, "randomize_pegs")
+	menu.params = {"objArr": objArr}
 	
 	$Level.text = "Next level at $" + str(currLevel)
 
@@ -74,8 +79,13 @@ func _process(_delta):
 		if menu.selected != -1:
 			ball = ballScene.instantiate()
 			add_child(ball)
-			upgrades.handle_options(self, currentOptions[menu.selected])
-			functions.handle_function(self, menu)
+			if currentOptions[menu.selected]["func"].is_valid():
+				if "params" in currentOptions[menu.selected]:
+					currentOptions[menu.selected]["func"].call(self, currentOptions[menu.selected]["params"])
+				else:
+					currentOptions[menu.selected]["func"].call(self)
+			if menu.function.is_valid():
+				menu.function.call()
 			menu.free()
 			menuOpen = false
 	elif !gameOver:
@@ -107,9 +117,9 @@ func _on_resetter_body_entered(body):
 		body.free()
 		for basket in basketArr:
 			if basket.entered:
-				functions.handle_function(self, basket)
+				basket.function.call()
 				basket.entered = false
-		currLevel = levels.check_level(money)
+		currLevel = Levels.check_level(money)
 		if dropCost > money:
 			music.stop_all()
 			$GameOver.visible = true
@@ -121,19 +131,26 @@ func _on_resetter_body_entered(body):
 				lastLevel = currLevel
 				$Level.text = currLevel
 				music.stop_all()
-				currentOptions = levels.load_level(menu)
+				currentOptions = Levels.load_level(menu)
 			else:
 				$Level.text = "Next level at $" + str(currLevel)
-				currentOptions = upgrades.pegUpgrades.set_options(menu, upgradeWeights)
+				currentOptions = upgrades.set_options(menu, upgradeWeights)
 			call_deferred("add_child", menu)
 			menuOpen = true
 
-func add_coll_object(objPosition, function, scene, shape):
-	objArr.append(scene.instantiate())
-	add_child(objArr.back())
-	objArr.back().global_position = objPosition
-	objArr.back().function = function
-	objArr.back().set_object(shape)
+func add_coll_object(objPosition, scene, shape, function: Dictionary = {}):
+	var newObj = scene.instantiate()
+	objArr.append(newObj)
+	add_child(newObj)
+	newObj.global_position = objPosition
+	newObj.set_object(shape)
+	newObj.mainScene = self
+	if function != {}:
+		var callableFunc = Callable(newObj, function["func"])
+		newObj.functions.append({
+			"func": callableFunc,
+			"text":function.text
+		})
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):

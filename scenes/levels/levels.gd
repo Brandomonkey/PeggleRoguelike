@@ -1,4 +1,4 @@
-extends Node
+class_name Levels
 
 static var levelOrder = [
 	10,
@@ -52,5 +52,13 @@ static func check_level(money):
 
 
 static func load_level(menu):
-	menu.set_options(["Next Level","Next Level","Next Level"])
-	return ["Next Level","Next Level","Next Level"]
+	var options = []
+	for i in 3:
+		options.append({"text": "Next Level", "func": Callable(Levels, "progress_level")})
+	menu.set_options(options)
+	return options
+
+
+static func progress_level(ogNode):
+	ogNode.music.set_music(ogNode.currLevel)
+	ogNode.music.play()

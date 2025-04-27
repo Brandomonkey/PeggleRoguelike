@@ -2,8 +2,8 @@ extends Area2D
 
 var entered = false
 var label: String
-var function: String
-var value: int
+var function: Callable
+var params: Dictionary
 
 func _ready():
 	$Label.text = label
@@ -11,3 +11,8 @@ func _ready():
 func _on_body_entered(body):
 	if body.is_in_group("ball"):
 		entered = true
+
+
+# Basket Functions
+func add_money():
+	params.ogNode.money += params.value

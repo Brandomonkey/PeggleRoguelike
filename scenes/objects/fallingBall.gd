@@ -1,6 +1,6 @@
 extends RigidBody2D
+class_name Ball
 
-const pegUpgrades = preload("res://scenes/helpers/upgrades/pegUpgrades.gd")
 @onready var shape = $ballShape.shape
 var last_position: Vector2
 var movement_direction: Vector2
@@ -10,6 +10,7 @@ var last_touched: StaticBody2D
 var is_dropped = false
 var time_dropped = null
 var money_gathered = 0
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -51,10 +52,10 @@ func _on_body_entered(body):
 	if body.is_in_group("coll_objects") and Time.get_ticks_msec() - body.time_touched > 250:
 		last_touched = body
 		body.time_touched = Time.get_ticks_msec()
-		pegUpgrades.run_peg_function(self, body)
-		if body.value > 0:
-			money_gathered += body.value
+		for function in body.functions:
+			function["func"].call()
 			body.do_pop_up()
+		if body.value > 0:
 			$moneySound.play()
 		else:
 			$boingSound.play()
