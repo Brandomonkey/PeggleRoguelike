@@ -2,7 +2,7 @@ extends Node2D
 class_name Main
 
 const upgrades = preload("res://scenes/helpers/upgrades/upgrades.gd")
-const functions = preload("res://scenes/helpers/functions.gd")
+const levelHelper = preload("res://scenes/levels/level_helper.gd")
 
 const menuScene = preload("res://scenes/menus/menu.tscn")
 const ballScene = preload("res://scenes/objects/fallingBall.tscn")
@@ -13,21 +13,23 @@ var menu: Node2D
 var menuOpen = true
 var selector: Area2D
 var selecting = false
+
 var ball: RigidBody2D
 var objArr: Array
+var leftButtonTriggers: Array
+var rightButtonTriggers: Array
 var basketArr: Array
 var music: AudioStreamPlayer
 var gameplay_viewport: Dictionary
 
-var prevMoney = 0
 var money = 1
-var prevMoneyEarned = 0
 var moneyEarned = 0
 var dropCost = 1
 var upgradeWeights = [5,4,3,2,1]
 
-var currLevel = Levels.check_level(money)
-var lastLevel: String
+var moneyToLevel = 0
+var levelStatus = false
+var levelCharacters = []
 var currentOptions: Array
 var gameOver = false
 
@@ -57,7 +59,8 @@ func _ready():
 	menu.function = Callable(menu, "randomize_pegs")
 	menu.params = {"objArr": objArr}
 	
-	$Level.text = "Next level at $" + str(currLevel)
+	moneyToLevel = Levels.check_level(money)
+	$Level.text = "Next level at $" + str(moneyToLevel)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -94,11 +97,13 @@ func _process(_delta):
 				ball.time_dropped = null
 				if dropCost <= money:
 					money -= dropCost
+					dropCost *= 2
 			if ball.impulse_factor > 5:
 				objArr.erase(ball.last_touched)
 				ball.last_touched.free()
 				ball.impulse_factor = 1
 			moneyEarned = ball.money_gathered
+			levelHelper.level_handler(self, "during_drop")
 			pass
 		else:
 			var ball_posx = get_global_mouse_position().x
@@ -112,31 +117,35 @@ func _process(_delta):
 func _on_resetter_body_entered(body):
 	if body.is_in_group("ball"):
 		money += moneyEarned
-		dropCost *= 2
 		moneyEarned = 0
-		body.free()
 		for basket in basketArr:
 			if basket.entered:
 				basket.function.call()
 				basket.entered = false
-		currLevel = Levels.check_level(money)
+		moneyToLevel = Levels.check_level(money)
 		if dropCost > money:
 			music.stop_all()
 			$GameOver.visible = true
 			gameOver = true
 		else:
-			$happySound.play()
+			play_sound("res://assets/audio/Hooray Sound Effect.mp3")
 			menu = menuScene.instantiate()
-			if currLevel is String and currLevel != lastLevel:
-				lastLevel = currLevel
-				$Level.text = currLevel
+			if levelStatus:
+				levelHelper.level_handler(self, "after_landing")
+				levelStatus = false
+				levelCharacters = []
+				$Level.text = "Next level at $" + str(moneyToLevel)
+				currentOptions = upgrades.set_options(menu, upgradeWeights)
+			else:
+				levelStatus = Levels.get_level()
+				levelCharacters.append(Levels.get_character(levelStatus))
+				$Level.text = levelStatus + str(levelCharacters)
 				music.stop_all()
 				currentOptions = Levels.load_level(menu)
-			else:
-				$Level.text = "Next level at $" + str(currLevel)
-				currentOptions = upgrades.set_options(menu, upgradeWeights)
 			call_deferred("add_child", menu)
 			menuOpen = true
+		body.free()
+
 
 func add_coll_object(objPosition, scene, shape, function: Dictionary = {}):
 	var newObj = scene.instantiate()
@@ -147,11 +156,32 @@ func add_coll_object(objPosition, scene, shape, function: Dictionary = {}):
 	newObj.mainScene = self
 	if function != {}:
 		var callableFunc = Callable(newObj, function["func"])
-		newObj.functions.append({
-			"func": callableFunc,
-			"text":function.text
-		})
+		function.func = callableFunc
+		if function.has("trigger"):
+			newObj.triggeredFunctions.append(function)
+		else:
+			newObj.functions.append(function)
+	return newObj
+
+func play_sound(path: String):
+	var sound_stream = load(path)
+	$SoundPlayer.stream = sound_stream
+	$SoundPlayer.play()
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		get_tree().quit()
+
+func _on_input_event_left(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if event.is_action_pressed("left_click"):
+		for obj in leftButtonTriggers:
+			for function in obj.triggeredFunctions:
+				if function.trigger == "left_button":
+					function.func.call(function.params)
+
+func _on_input_event_right(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if event.is_action_pressed("left_click"):
+		for obj in rightButtonTriggers:
+			for function in obj.triggeredFunctions:
+				if function.trigger == "right_button":
+					function.func.call(function.params)

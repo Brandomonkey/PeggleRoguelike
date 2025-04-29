@@ -36,26 +36,71 @@ func _input(event):
 
 
 func add_money(pegs: Array) -> bool:
-	if pegs.size() > 0:
-		for peg in pegs:
-			peg.functions.append({"func": Callable(peg,"add_money"),"text": "Add Money"})
-			peg.value = peg.value + params.value
-			peg.set_color(Color.GREEN)
-		return true
-	else:
+	if pegs.size() == 0: # Ensure pegs are selected
 		return false
+
+	for peg in pegs: # Apply to each peg in selection
+		var replaced = false
+		for i in range(peg.functions.size()): # Check for and update existing add_money function
+			var existing = peg.functions[i]
+			if existing.get("func").get_method() == "add_money":
+				existing["params"]["value"] += params.value
+				peg.functions[i] = existing
+				replaced = true
+				break
+
+		if not replaced: # Add the function if it does not already exist
+			var new_function = {
+				"func": Callable(peg,"add_money"),
+				"text": "Add Money",
+				"params": {"value": params.value}
+			}
+			peg.functions.append(new_function)
+
+		peg.set_color(Color.GREEN) # Update peg color
+		peg.sound = peg.get_node("moneySound") # Update peg sound
+	return true
+
 
 func remove_pegs(pegs: Array) -> bool:
-	if pegs.size() > 0:
-		pegs_to_remove = pegs
-		return true
-	else:
+	if pegs.size() == 0: # Ensure pegs are selected
 		return false
+	pegs_to_remove = pegs # Set selection to be removed
+	return true
+
 
 func add_bumper(pegs: Array) -> bool:
-	if pegs.size() == 0:
-		ogNode.add_coll_object(global_position, collScene, "Circle Peg", {"func": "bump_ball", "text": "Bump Ball"})
-		ogNode.objArr.back().scale = Vector2(1.5, 1.5)
-		return true
-	else:
+	if pegs.size() > 0:
 		return false
+	var new_function = {
+		"func": "bump_ball",
+		"text": "Bump Ball",
+		"params": {}
+	}
+	var newObj = ogNode.add_coll_object(global_position, collScene, "Circle Peg", new_function)
+	newObj.scale = Vector2(1.5, 1.5)
+	return true
+
+func change_size(pegs: Array) -> bool:
+	if pegs.size() == 0:
+		return false
+	for peg in pegs:
+		peg.scale *= params.value
+	return true
+
+func add_flipper(pegs: Array) -> bool:
+	if pegs.size() > 0:
+		return false
+	var new_function = {
+		"func": "flip",
+		"text": "Flip Ball",
+		"trigger": params.side + "_button",
+		"params": {"direction": params.side}
+	}
+	var newObj = ogNode.add_coll_object(global_position, collScene, "Flipper", new_function)
+	if params.side == "right":
+		ogNode.rightButtonTriggers.append(newObj)
+	elif params.side == "left":
+		newObj.scale = Vector2(-1,1)
+		ogNode.leftButtonTriggers.append(newObj)
+	return true

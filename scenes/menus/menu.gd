@@ -25,8 +25,12 @@ func set_options(options):
 # Post Selection Functions
 func randomize_pegs():
 	for peg in params.objArr:
-		var callableFunc = Callable(peg, "add_money")
+		var new_function = {
+			"func": Callable(peg,"add_money"),
+			"text": "Add Money",
+			"params": {"value": 1}
+		}
 		if randi() % 10 == 0:
-			peg.functions.append({"func": callableFunc,"text":"Add Money"})
-			peg.value = 1
+			peg.functions.append(new_function)
 			peg.set_color(Color.GREEN)
+			peg.sound = peg.get_node("moneySound") # Update peg sound

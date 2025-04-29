@@ -7,6 +7,7 @@ var movement_direction: Vector2
 var last_position_stuck: Vector2
 var impulse_factor = 1
 var last_touched: StaticBody2D
+var all_touched: Array
 var is_dropped = false
 var time_dropped = null
 var money_gathered = 0
@@ -51,14 +52,13 @@ func _input(event):
 func _on_body_entered(body):
 	if body.is_in_group("coll_objects") and Time.get_ticks_msec() - body.time_touched > 250:
 		last_touched = body
+		if body not in all_touched:
+			all_touched.append(body)
 		body.time_touched = Time.get_ticks_msec()
 		for function in body.functions:
-			function["func"].call()
+			function["func"].call(function["params"])
 			body.do_pop_up()
-		if body.value > 0:
-			$moneySound.play()
-		else:
-			$boingSound.play()
+		body.sound.play()
 
 
 func get_radius():

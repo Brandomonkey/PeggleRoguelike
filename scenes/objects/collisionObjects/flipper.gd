@@ -1,4 +1,4 @@
-extends CollisionShape2D
+extends CollisionPolygon2D
 
 var color: Color
 

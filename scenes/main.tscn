@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://cwdubov25slj5"]
+[gd_scene load_steps=13 format=3 uid="uid://cwdubov25slj5"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_wsmuf"]
 [ext_resource type="AudioStream" uid="uid://blgcborusdy58" path="res://assets/audio/Hooray Sound Effect.mp3" id="2_xft5e"]
 [ext_resource type="Texture2D" uid="uid://ci8wagxhf7sui" path="res://assets/sprites/brickTexture.png" id="3_2h4vr"]
 [ext_resource type="Texture2D" uid="uid://c7vuxscm3j5rx" path="res://assets/sprites/steelTexture.webp" id="4_3got4"]
+[ext_resource type="Texture2D" uid="uid://btbagaoev3le5" path="res://assets/sprites/icon.svg" id="5_xgv7e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ub2se"]
 size = Vector2(1080, 24)
@@ -17,6 +18,9 @@ size = Vector2(420, 1080)
 [sub_resource type="LabelSettings" id="LabelSettings_v30o0"]
 font_size = 36
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8lksn"]
+size = Vector2(128, 129)
+
 [sub_resource type="LabelSettings" id="LabelSettings_rc2uw"]
 font_size = 48
 
@@ -28,7 +32,7 @@ outline_size = 25
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_wsmuf")
 
-[node name="happySound" type="AudioStreamPlayer" parent="."]
+[node name="SoundPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_xft5e")
 volume_db = -21.549
 
@@ -99,6 +103,28 @@ text = "Cost to Drop: $0"
 label_settings = SubResource("LabelSettings_v30o0")
 vertical_alignment = 1
 
+[node name="ButtonRight" type="Sprite2D" parent="."]
+position = Vector2(309, 356)
+texture = ExtResource("5_xgv7e")
+
+[node name="Area2D" type="Area2D" parent="ButtonRight"]
+position = Vector2(-3, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ButtonRight/Area2D"]
+position = Vector2(3, 0)
+shape = SubResource("RectangleShape2D_8lksn")
+
+[node name="ButtonLeft" type="Sprite2D" parent="."]
+position = Vector2(113, 356)
+texture = ExtResource("5_xgv7e")
+
+[node name="Area2D" type="Area2D" parent="ButtonLeft"]
+position = Vector2(-3, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ButtonLeft/Area2D"]
+position = Vector2(3, 0)
+shape = SubResource("RectangleShape2D_8lksn")
+
 [node name="LevelBackdrop" type="Sprite2D" parent="."]
 position = Vector2(1710, 216)
 scale = Vector2(0.697755, 1.15556)
@@ -112,6 +138,7 @@ offset_bottom = 416.0
 label_settings = SubResource("LabelSettings_rc2uw")
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="GameOver" type="Sprite2D" parent="."]
 visible = false
@@ -131,3 +158,5 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [connection signal="body_entered" from="Resetter" to="." method="_on_resetter_body_entered"]
+[connection signal="input_event" from="ButtonRight/Area2D" to="." method="_on_input_event_right"]
+[connection signal="input_event" from="ButtonLeft/Area2D" to="." method="_on_input_event_left"]

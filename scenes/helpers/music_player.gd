@@ -47,4 +47,3 @@ func play_music():
 			$musicLayer.stream = load("res://assets/music/"+ currentLevel + "/" + currentLevel + "Lead" + str(lead) + ".mp3")
 	$musicLayer.play()
 	play()
-
