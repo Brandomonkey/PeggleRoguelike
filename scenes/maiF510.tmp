@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cwdubov25slj5"]
+[gd_scene load_steps=13 format=3 uid="uid://cwdubov25slj5"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_wsmuf"]
 [ext_resource type="AudioStream" uid="uid://blgcborusdy58" path="res://assets/audio/Hooray Sound Effect.mp3" id="2_xft5e"]
@@ -21,11 +21,8 @@ font_size = 36
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8lksn"]
 size = Vector2(128, 129)
 
-[sub_resource type="LabelSettings" id="LabelSettings_omw0m"]
-font_size = 32
-
 [sub_resource type="LabelSettings" id="LabelSettings_rc2uw"]
-font_size = 36
+font_size = 48
 
 [sub_resource type="LabelSettings" id="LabelSettings_03flg"]
 font_size = 60
@@ -70,7 +67,7 @@ position = Vector2(1710, 540)
 shape = SubResource("RectangleShape2D_3hefr")
 
 [node name="Sprite2D" type="Sprite2D" parent="RightBorder/Shape"]
-position = Vector2(4.17232e-05, -2.80762e-05)
+position = Vector2(-8.03471e-05, 3.2959e-05)
 scale = Vector2(1.68, 4.32)
 texture = ExtResource("3_2h4vr")
 
@@ -128,48 +125,16 @@ position = Vector2(-3, 0)
 position = Vector2(3, 0)
 shape = SubResource("RectangleShape2D_8lksn")
 
-[node name="InventoryBackdrop" type="Sprite2D" parent="."]
-position = Vector2(209.5, 777.5)
-scale = Vector2(0.696028, 1.61389)
-texture = ExtResource("4_3got4")
-
-[node name="InventoryLabel" type="Label" parent="."]
-offset_left = 17.0
-offset_top = 499.0
-offset_right = 401.0
-offset_bottom = 562.0
-text = "Inventory:"
-label_settings = SubResource("LabelSettings_v30o0")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Inventory" type="Label" parent="."]
-offset_left = 16.0
-offset_top = 562.0
-offset_right = 400.0
-offset_bottom = 1059.0
-label_settings = SubResource("LabelSettings_omw0m")
-
-[node name="LevelSpriteBackdrop" type="Sprite2D" parent="."]
-position = Vector2(1712, 224)
-scale = Vector2(0.690847, 1.15556)
-texture = ExtResource("4_3got4")
-
-[node name="LevelSprite" type="Sprite2D" parent="."]
-position = Vector2(1712, 224)
-scale = Vector2(0.663212, 1.11111)
-texture = ExtResource("4_3got4")
-
 [node name="LevelBackdrop" type="Sprite2D" parent="."]
-position = Vector2(1709.5, 760)
-scale = Vector2(0.682211, 1.73333)
+position = Vector2(1710, 216)
+scale = Vector2(0.697755, 1.15556)
 texture = ExtResource("4_3got4")
 
 [node name="Level" type="Label" parent="."]
-offset_left = 1520.0
-offset_top = 456.0
-offset_right = 1899.0
-offset_bottom = 1066.0
+offset_left = 1517.0
+offset_top = 16.0
+offset_right = 1904.0
+offset_bottom = 416.0
 label_settings = SubResource("LabelSettings_rc2uw")
 horizontal_alignment = 1
 vertical_alignment = 1

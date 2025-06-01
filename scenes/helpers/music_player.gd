@@ -1,14 +1,13 @@
 extends AudioStreamPlayer
 
-var levels = preload("res://scenes/levels/levels.gd").levels
-var levelInfo = preload("res://scenes/levels/levels.gd").levelInfo
+var levels = preload("res://scenes/levels/levels.gd").level_data
 var currentLevel: String
 var currState: int
 var isTrue: bool
 
 func _ready():
 	randomize()
-	currentLevel = levels[randi() % levels.size()]
+	currentLevel = levels.keys()[randi() % levels.size()]
 	currState = 0
 	play_music()
 
@@ -36,7 +35,7 @@ func play_music():
 		isTrue = true
 	else:
 		stream = load("res://assets/music/"+ currentLevel + "/" + currentLevel + "Main.mp3")
-		var lead = randi() % levelInfo[currentLevel]["characters"].size()
+		var lead = randi() % levels[currentLevel]["characters"].size()
 		if ResourceLoader.exists("res://assets/music/"+ currentLevel + "/" + currentLevel + "Sub.mp3") and randi() % 2 == 0:
 			$musicLayer2.stream = load("res://assets/music/"+ currentLevel + "/" + currentLevel + "Sub.mp3")
 			$musicLayer2.play()

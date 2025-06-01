@@ -64,6 +64,19 @@ func bump_ball(_params: Dictionary = {}):
 	tween.tween_property(self, "scale", Vector2(2, 2), 0.1)
 	tween.tween_property(self, "scale", Vector2(1.5, 1.5), 0.2)
 
+func silver_bullet(_params: Dictionary = {}):
+	mainScene.inventory.append("Silver Bullet")
+	var is_green = false
+	for function in functions:
+		if function.get("func").get_method() == "silver_bullet":
+			functions.erase(function)
+		elif function.get("func").get_method() == "add_money":
+			is_green = true
+	if is_green:
+		set_color(Color.GREEN)
+	else:
+		set_color(Color.RED)
+
 # TRIGGERED FUNCTIONS
 
 func flip(params: Dictionary):

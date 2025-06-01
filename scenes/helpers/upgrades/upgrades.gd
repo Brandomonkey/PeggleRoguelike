@@ -5,37 +5,17 @@ const selectorScene = preload("res://scenes/objects/selector.tscn")
 
 static var normal_selector_scale = 64
 
-# Upgrade Option Handlers
-const upgradeOptions = [
-	[ #"common":
-		{"text": "+1 Value Circle", "func": Callable(Upgrades, "add_value"), "params": {"value": 1, "shape": "circle", "scale": 1.25}},
-		{"text": "+1 Value Square", "func": Callable(Upgrades, "add_value"), "params": {"value": 1, "shape": "square", "scale": 1.5}},
-		{"text": "Remove Circle", "func": Callable(Upgrades, "remove"), "params": {"shape": "circle", "scale": 0.75}},
-		{"text": "Remove Square", "func": Callable(Upgrades, "remove"), "params": {"shape": "square", "scale": 1}}
-	],
-	[ #"uncommon": 
-		{"text": "Create Bumper Peg", "func": Callable(Upgrades, "add_bumper"), "params": {"shape": "circle", "scale": 0.25}}
-	],
-	[ #"rare": 
-		{"text": "Increase Size Circle", "func": Callable(Upgrades, "change_size"), "params": {"value": 1.5, "shape": "circle", "scale": 1.25}},
-		{"text": "Increase Size Square", "func": Callable(Upgrades, "change_size"), "params": {"value": 1.5, "shape": "square", "scale": 1.5}},
-		{"text": "Decrease Size Circle", "func": Callable(Upgrades, "change_size"), "params": {"value": 0.75, "shape": "circle", "scale": 1.25}},
-		{"text": "Decrease Size Square", "func": Callable(Upgrades, "change_size"), "params": {"value": 0.75, "shape": "square", "scale": 1.5}},
-	],
-	[ #"epic": 
-		{"text": "Create Left Flipper", "func": Callable(Upgrades, "add_flipper"), "params": {"side": "left", "shape": "circle", "scale": 0.25}},
-		{"text": "Create Right Flipper", "func": Callable(Upgrades, "add_flipper"), "params": {"side": "right", "shape": "circle", "scale": 0.25}},
-	],
-	[ #"legendary": 
-		{"text": "+1 Value To All Pegs", "func": Callable(Upgrades, "add_value"), "params": {"value": 1, "shape": "circle", "scale": 100}}
-	]
-]
+static var upgrade_data_file = "res://assets/data/upgrades.json"
+static var upgrade_data_json = FileAccess.get_file_as_string(upgrade_data_file)
+static var upgradeOptions = JSON.parse_string(upgrade_data_json)
 
 static func set_options(menu, weights):
 	var currentOptions = []
 	while currentOptions.size() < 3:
 		var rarity = general.weighted_random(weights)
 		var optionSet = upgradeOptions[rarity].pick_random()
+		if optionSet["func"] is String:
+			optionSet["func"] = Callable(Upgrades, optionSet["func"])
 		if optionSet not in currentOptions:
 			currentOptions.append(optionSet)
 	menu.set_options(currentOptions)
@@ -81,6 +61,9 @@ static func add_bumper(ogNode: Node2D, params: Dictionary = {}):
 	var shape = make_shape(params.shape, params.scale)
 	if shape:
 		select(ogNode, "add_bumper", {}, shape)
+
+static func silver_bullet(ogNode: Node2D, _params: Dictionary = {}):
+	ogNode.inventory.append("Silver Bullet")
 
 static func change_size(ogNode: Node2D, params: Dictionary = {}):
 	var shape = make_shape(params.shape, params.scale)

@@ -29,10 +29,11 @@ func _draw():
 func _input(event):
 	if event.is_action_pressed("left_click"):
 		var pegs = get_overlapping_bodies()
+		var result = []
 		for body in pegs:
-			if not body.is_in_group("coll_objects"):
-				pegs.erase(body)
-		area_selected = function.call(pegs)
+			if body.is_in_group("coll_objects"):
+				result.append(body)
+		area_selected = function.call(result)
 
 
 func add_money(pegs: Array) -> bool:

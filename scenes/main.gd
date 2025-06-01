@@ -21,6 +21,9 @@ var rightButtonTriggers: Array
 var basketArr: Array
 var music: AudioStreamPlayer
 var gameplay_viewport: Dictionary
+var modulator: CanvasModulate
+
+var inventory: Array
 
 var money = 1
 var moneyEarned = 0
@@ -62,12 +65,15 @@ func _ready():
 	moneyToLevel = Levels.check_level(money)
 	$Level.text = "Next level at $" + str(moneyToLevel)
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	$Money.text = "Bank Account: $" + str(money)
 	$MoneyEarned.text = "Money Earned: $" + str(moneyEarned)
 	$DropCost.text = "Cost to Drop: $" + str(dropCost)
+	var inventoryText = ""
+	for item in inventory:
+		inventoryText += "* " + item + "\n"
+	$Inventory.text = inventoryText
 	if selecting:
 		if selector.area_selected:
 			if selector.pegs_to_remove != null:
@@ -124,9 +130,7 @@ func _on_resetter_body_entered(body):
 				basket.entered = false
 		moneyToLevel = Levels.check_level(money)
 		if dropCost > money:
-			music.stop_all()
-			$GameOver.visible = true
-			gameOver = true
+			do_game_over()
 		else:
 			play_sound("res://assets/audio/Hooray Sound Effect.mp3")
 			menu = menuScene.instantiate()
@@ -139,13 +143,23 @@ func _on_resetter_body_entered(body):
 			else:
 				levelStatus = Levels.get_level()
 				levelCharacters.append(Levels.get_character(levelStatus))
-				$Level.text = levelStatus + str(levelCharacters)
+				
+				var spritePath = "res://assets/sprites/" + levelStatus + "/" + levelCharacters[0].get("name") + ".png"
+				if FileAccess.file_exists(spritePath):
+					var desiredSize = Vector2(384,400)
+					$LevelSprite.texture = load(spritePath)
+					$LevelSprite.scale = desiredSize / $LevelSprite.texture.get_size()
+					$Level.text = generate_level_text(levelStatus, levelCharacters)
+				else:
+					print(spritePath + " does not exist.")
+				
 				music.stop_all()
 				currentOptions = Levels.load_level(menu)
-			call_deferred("add_child", menu)
-			menuOpen = true
+				levelHelper.level_handler(self, "level_start")
+			if not gameOver:
+				call_deferred("add_child", menu)
+				menuOpen = true
 		body.free()
-
 
 func add_coll_object(objPosition, scene, shape, function: Dictionary = {}):
 	var newObj = scene.instantiate()
@@ -163,10 +177,24 @@ func add_coll_object(objPosition, scene, shape, function: Dictionary = {}):
 			newObj.functions.append(function)
 	return newObj
 
+func do_game_over():
+	music.stop_all()
+	$GameOver.visible = true
+	gameOver = true
+
 func play_sound(path: String):
 	var sound_stream = load(path)
 	$SoundPlayer.stream = sound_stream
 	$SoundPlayer.play()
+
+func generate_level_text(level: String, characters: Array):
+	var returnText = ""
+	returnText += level + "\n"
+	for character in characters:
+		returnText += character.get("name","No Name Found")
+	returnText += "\n"
+	returnText += characters[0].get("desc", "No Description")
+	return returnText
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):

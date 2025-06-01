@@ -1,5 +1,13 @@
 class_name Levels
 
+static var level_data_file = "res://assets/data/levels.json"
+static var level_data_json = FileAccess.get_file_as_string(level_data_file)
+static var level_data = JSON.parse_string(level_data_json)
+
+static var level_order_file = "user://level_order.json"
+static var level_order_json = FileAccess.get_file_as_string(level_order_file)
+static var level_order = JSON.parse_string(level_order_json)
+
 static var levelOrder = [
 	10,
 	25,
@@ -16,59 +24,24 @@ static var levelOrder = [
 	1000000
 ]
 
-static var levels = [
-	#"crazyCraps",
-	"hauntedHoldout",
-	#"boombapBaccarat",
-	#"buoyBucks",
-	#"payoutPyramids"
-]
-
-static var levelInfo = {
-	#"crazyCraps": {
-		#"characters": [
-			#{"name": "Lead1", "func": "not_implemented"},
-			#{"name": "Lead2", "func": "not_implemented"},
-			#{"name": "Lead3", "func": "not_implemented"},
-		#]
-	#},
-	"hauntedHoldout": {
-		"characters": [
-			{"name": "Dracula", "after_landing": "dracula"},
-			{"name": "Frankenstein", "during_drop": "frankenstein"},
-			#{"name": "Ghost", "func": "not_implemented"},
-			#{"name": "Werewolf", "func": "not_implemented"}
-		]
-	},
-	#"boombapBaccarat": {
-		#"characters": [
-			#{"name": "Giraffe", "func": "not_implemented"},
-			#{"name": "Elephant", "func": "not_implemented"},
-			#{"name": "Monkey1", "func": "not_implemented"},
-			#{"name": "Monkey2", "func": "not_implemented"},
-		#]
-	#},
-	#"buoyBucks": {
-		#"characters": [
-			#{"name": "Lead1", "func": "not_implemented"},
-			#{"name": "Lead2", "func": "not_implemented"},
-			#{"name": "Lead3", "func": "not_implemented"},
-		#]
-	#},
-	#"payoutPyramids": {
-		#"characters": [
-			#{"name": "Lead1", "func": "not_implemented"},
-			#{"name": "Lead2", "func": "not_implemented"},
-		#]
-	#}
-}
-
 static func get_level():
-	return levels[randi() % levels.size()]
+	if level_order.size() > 0:
+		var current_level = JSON.parse_string(level_order[0])
+		for level in level_data.keys():
+			var characters = level_data[level].get("characters", [])
+			for character in characters:
+				if character == current_level:
+					return level
+	return level_data.keys()[randi() % level_data.size()]
 
 static func get_character(level):
-	var characters = levelInfo[level].characters
-	return characters[randi() % characters.size()]
+	if level_order.size() > 0:
+		var next_level = JSON.parse_string(level_order[0])
+		level_order.pop_front()
+		return next_level
+	else:
+		var characters = level_data[level].characters
+		return characters[randi() % characters.size()]
 
 static func check_level(money):
 	if levelOrder[0] <= money:

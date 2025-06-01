@@ -1,0 +1,85 @@
+[gd_scene load_steps=4 format=3 uid="uid://dsd0dif1efmvy"]
+
+[ext_resource type="Script" path="res://scenes/level_editor.gd" id="1_fy857"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_aiofj"]
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_mqnx4"]
+font_size = 30
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_fy857")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+alignment = 1
+
+[node name="LeftMarginContainer" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/LeftMarginContainer"]
+layout_mode = 2
+
+[node name="LevelDataContainer" type="VBoxContainer" parent="HBoxContainer/LeftMarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LeftTitleRow" type="HBoxContainer" parent="HBoxContainer/LeftMarginContainer/ScrollContainer/LevelDataContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="HBoxContainer/LeftMarginContainer/ScrollContainer/LevelDataContainer/LeftTitleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "X"
+
+[node name="Label" type="Label" parent="HBoxContainer/LeftMarginContainer/ScrollContainer/LevelDataContainer/LeftTitleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 20.0
+text = "Available Levels"
+label_settings = SubResource("LabelSettings_aiofj")
+horizontal_alignment = 1
+
+[node name="RightMarginContainer" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/RightMarginContainer"]
+layout_mode = 2
+
+[node name="CharacterOrderList" type="VBoxContainer" parent="HBoxContainer/RightMarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LeftTitleRow" type="HBoxContainer" parent="HBoxContainer/RightMarginContainer/ScrollContainer/CharacterOrderList"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/RightMarginContainer/ScrollContainer/CharacterOrderList/LeftTitleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 5.0
+text = "Arrange Level Order"
+label_settings = SubResource("LabelSettings_mqnx4")
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="HBoxContainer/RightMarginContainer/ScrollContainer/CharacterOrderList/LeftTitleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save"
+
+[connection signal="pressed" from="HBoxContainer/LeftMarginContainer/ScrollContainer/LevelDataContainer/LeftTitleRow/Button" to="." method="_on_X_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/RightMarginContainer/ScrollContainer/CharacterOrderList/LeftTitleRow/Button" to="." method="_on_save_button_pressed"]

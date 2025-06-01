@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://xqvr00kw3jmt"]
+
+[ext_resource type="Script" path="res://scenes/main_menu.gd" id="1_x6y2x"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_x6y2x")
+
+[node name="PlayButton" type="Button" parent="."]
+offset_left = 704.0
+offset_top = 384.0
+offset_right = 1218.0
+offset_bottom = 504.0
+text = "Play"
+
+[node name="LevelEditorButton" type="Button" parent="."]
+offset_left = 704.0
+offset_top = 520.0
+offset_right = 1216.0
+offset_bottom = 640.0
+text = "Level Info"
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="LevelEditorButton" to="." method="_on_level_editor_button_pressed"]
