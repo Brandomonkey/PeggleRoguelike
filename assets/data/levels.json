@@ -1,0 +1,61 @@
+{
+	"hauntedHoldout": {
+		"characters": [
+			{
+				"name": "Dracula",
+				"desc": "Your ball has been bit! Any upgraded pegs hit by your ball will lose their upgrades at the end of the round.",
+				"after_landing": "dracula"
+			},
+			{
+				"name": "Frankenstein",
+				"desc": "You are being zapped by Frankenstein! You will lose money every 5 seconds your ball is in play.",
+				"during_drop": "frankenstein"
+			},
+			{
+				"name": "Werewolf",
+				"desc": "Its gonna be a full moon tonight! If you don't have a silver bullet by the end of the round, you will be eaten!",
+				"level_start": "place_silver_bullet",
+				"after_landing": "werewolf"
+			},
+			{
+				"name": "Ghost",
+				"desc": "The lights are out and your ball is haunted! Your ball will emit a spectral light once it is dropped.",
+				"before_dropping": "ghost",
+				"during_drop": "ghost_light",
+				"after_landing": "reset_ghost"
+			}
+		]
+	},
+	"boombapBaccarat": {
+		"characters": [
+			{
+				"name": "Giraffe",
+				"desc": "Giraffe playing the saxaphone",
+			},
+			{
+				"name": "Elephant",
+				"desc": "Elephant playing his trunk",
+			},
+			{
+				"name": "Monkey 1",
+				"desc": "Monkey playing the piano",
+			},
+			{
+				"name": "Monkey 2",
+				"desc": "Monkey playing the piano",
+			}
+		]
+	},
+	"payoutPyramids": {
+		"characters": [
+			{
+				"name": "Sphinx", 
+				"desc": "The Cat Pharaoh"
+			},
+			{
+				"name": "Mummy", 
+				"desc": "Spooky mummy guy"
+			},
+		]
+	}
+}

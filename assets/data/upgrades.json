@@ -1,0 +1,25 @@
+{
+	"common": [
+		{"text": "+1 Value Circle", "func": "add_value", "params": {"value": 1, "shape": "circle", "scale": 1.25}},
+		{"text": "+1 Value Square", "func": "add_value", "params": {"value": 1, "shape": "square", "scale": 1.5}},
+		{"text": "Remove Circle", "func": "remove", "params": {"shape": "circle", "scale": 0.75}},
+		{"text": "Remove Square", "func": "remove", "params": {"shape": "square", "scale": 1}}
+	],
+	"uncommon": [
+		{"text": "Create Bumper Peg", "func": "add_bumper", "params": {"shape": "circle", "scale": 0.25}},
+		{"text": "Receive Silver Bullet", "func": "silver_bullet", "params": {}}
+	],
+	"rare": [
+		{"text": "Increase Size Circle", "func": "change_size", "params": {"value": 1.5, "shape": "circle", "scale": 1.25}},
+		{"text": "Increase Size Square", "func": "change_size", "params": {"value": 1.5, "shape": "square", "scale": 1.5}},
+		{"text": "Decrease Size Circle", "func": "change_size", "params": {"value": 0.75, "shape": "circle", "scale": 1.25}},
+		{"text": "Decrease Size Square", "func": "change_size", "params": {"value": 0.75, "shape": "square", "scale": 1.5}}
+	],
+	"epic": [
+		{"text": "Create Left Flipper", "func": "add_flipper", "params": {"side": "left", "shape": "circle", "scale": 0.25}},
+		{"text": "Create Right Flipper", "func": "add_flipper", "params": {"side": "right", "shape": "circle", "scale": 0.25}}
+	],
+	"legendary": [
+		{"text": "+1 Value To All Pegs", "func": "add_value", "params": {"value": 1, "shape": "circle", "scale": 15}}
+	]
+}

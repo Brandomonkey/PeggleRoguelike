@@ -1,0 +1,38 @@
+static var levelInfo = {
+	#"crazyCraps": {
+		#"characters": [
+			#{"name": "Lead1", "func": "not_implemented"},
+			#{"name": "Lead2", "func": "not_implemented"},
+			#{"name": "Lead3", "func": "not_implemented"},
+		#]
+	#},
+	"hauntedHoldout": {
+		"characters": [
+			{"name": "Dracula", "after_landing": "dracula"},
+			{"name": "Frankenstein", "during_drop": "frankenstein"},
+			#{"name": "Werewolf", "func": "not_implemented"},
+			#{"name": "Ghost", "func": "not_implemented"}
+		]
+	},
+	#"boombapBaccarat": {
+		#"characters": [
+			#{"name": "Giraffe", "func": "not_implemented"},
+			#{"name": "Elephant", "func": "not_implemented"},
+			#{"name": "Monkey1", "func": "not_implemented"},
+			#{"name": "Monkey2", "func": "not_implemented"},
+		#]
+	#},
+	#"buoyBucks": {
+		#"characters": [
+			#{"name": "Lead1", "func": "not_implemented"},
+			#{"name": "Lead2", "func": "not_implemented"},
+			#{"name": "Lead3", "func": "not_implemented"},
+		#]
+	#},
+	#"payoutPyramids": {
+		#"characters": [
+			#{"name": "Sphinx", "func": "not_implemented"},
+			#{"name": "Mummy", "func": "not_implemented"},
+		#]
+	#}
+}
