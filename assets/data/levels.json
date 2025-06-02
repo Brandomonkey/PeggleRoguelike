@@ -30,15 +30,19 @@
 		"characters": [
 			{
 				"name": "Giraffe",
-				"desc": "Giraffe playing the saxaphone",
+				"desc": "The giraffe's dreamy melody upgraded some pegs. When your ball hits these, its movement will temporarily smooth out with the rhythm.",
+				"level_start": "giraffe"
 			},
 			{
 				"name": "Elephant",
-				"desc": "Elephant playing his trunk",
+				"desc": "The elephant used is using its trunk to play powerful tones. Hittin its pegs will create a shockwave pushing everything nearby.",
+				"level_start": "elephant"
 			},
 			{
 				"name": "Monkey 1",
-				"desc": "Monkey playing the piano",
+				"desc": "This monkey is playing a classy tune on the keys. If you can hit multiple of his notes in rapid succession, you'll get a random bonus effect.",
+				"level_start": "monkey1",
+				"after_landing": "reset_monkey1"
 			},
 			{
 				"name": "Monkey 2",
