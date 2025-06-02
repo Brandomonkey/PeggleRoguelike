@@ -21,7 +21,7 @@ var rightButtonTriggers: Array
 var basketArr: Array
 var music: AudioStreamPlayer
 var gameplay_viewport: Dictionary
-var modulator: CanvasModulate
+var state: Dictionary
 
 var inventory: Array
 

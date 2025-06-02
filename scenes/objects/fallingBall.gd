@@ -51,14 +51,16 @@ func _input(event):
 
 func _on_body_entered(body):
 	if body.is_in_group("coll_objects") and Time.get_ticks_msec() - body.time_touched > 250:
-		last_touched = body
-		if body not in all_touched:
-			all_touched.append(body)
 		body.time_touched = Time.get_ticks_msec()
+		
 		for function in body.functions:
 			function["func"].call(function["params"])
 			body.do_pop_up()
 		body.sound.play()
+		
+		last_touched = body
+		if body not in all_touched:
+			all_touched.append(body)
 
 
 func get_radius():
