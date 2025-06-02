@@ -78,3 +78,49 @@ static func ghost_light(ogNode):
 static func reset_ghost(ogNode):
 	var overlay = ogNode.get_node("DarknessOverlay")
 	overlay.free()
+
+static func giraffe(ogNode: Main):
+	var pegs = ogNode.get("objArr")
+	for peg in pegs:
+		if randi() % 10 == 0:
+			var new_function = {
+				"func": Callable(peg, "giraffe"),
+				"text": "Giraffe Effect",
+				"params": {}
+			}
+			peg.get("functions").append(new_function)
+			peg.set_color(Color.MEDIUM_PURPLE)
+
+static func elephant(ogNode: Main):
+	var pegs = ogNode.get("objArr")
+	for peg in pegs:
+		if randi() % 10 == 0:
+			var new_function = {
+				"func": Callable(peg, "elephant"),
+				"text": "Elephant Effect",
+				"params": {}
+			}
+			peg.get("functions").append(new_function)
+			peg.set_color(Color.MEDIUM_PURPLE)
+
+static func monkey1(ogNode: Main):
+	ogNode.state = {"monkey_combo_active": false, "monkey_combo_count": 0, "monkey_last_hit": Time.get_ticks_msec()}
+	var pegs = ogNode.get("objArr")
+	for peg in pegs:
+		if randi() % 5 == 0:
+			var new_function = {
+				"func": Callable(peg, "monkey1"),
+				"text": "Melody Monkey Effect",
+				"params": {}
+			}
+			peg.get("functions").append(new_function)
+			peg.set_color(Color.MEDIUM_PURPLE)
+
+static func reset_monkey1(ogNode: Main):
+	ogNode.state.erase("monkey_combo_count")
+	ogNode.state.erase("monkey_last_hit")
+	for peg in ogNode.objArr:
+		for function in peg.functions:
+			if function.func == Callable(peg, "monkey1"):
+				peg.functions.erase(function) 
+				peg.set_color(Color.RED)
