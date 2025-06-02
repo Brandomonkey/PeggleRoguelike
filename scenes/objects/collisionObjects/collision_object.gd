@@ -77,6 +77,67 @@ func silver_bullet(_params: Dictionary = {}):
 	else:
 		set_color(Color.RED)
 
+func giraffe(_params: Dictionary = {}):
+	var ball: Ball = mainScene.get("ball")
+	if ball:
+		ball.gravity_scale *= 0.5
+		ball.physics_material_override.bounce *= 0.5
+		ball.physics_material_override.friction *= 2
+	await get_tree().create_timer(3).timeout
+	if ball:
+		ball.gravity_scale *= 2
+		ball.physics_material_override.bounce *= 2
+		ball.physics_material_override.friction *= 0.5
+
+func elephant(_params: Dictionary = {}):
+	var space_state = get_world_2d().direct_space_state
+	
+	var query = PhysicsShapeQueryParameters2D.new()
+	var shape = CircleShape2D.new()
+	shape.radius = 128
+	query.shape = shape
+	query.transform = Transform2D.IDENTITY.translated(global_position)
+	query.collision_mask = 1
+
+	var results = space_state.intersect_shape(query)
+
+	for result in results:
+		var peg = result.get("collider")
+		if peg.is_in_group("coll_objects"):
+			var direction = (peg.global_position - global_position).normalized()
+			var new_pos = peg.global_position + (direction * 5)
+			var tween := get_tree().create_tween()
+			tween.tween_property(peg, "global_position", new_pos, 0.15)
+
+	mainScene.ball.linear_velocity = mainScene.ball.linear_velocity.normalized() * 500
+
+func random_monkey_effect():
+	print("Random Monkey Effect!")
+
+func monkey1(_params: Dictionary = {}):
+	if self == mainScene.ball.last_touched:
+		mainScene.state.monkey_last_hit = time_touched
+	elif not mainScene.state.monkey_combo_active:
+		mainScene.state.monkey_combo_active = true
+		mainScene.state.monkey_last_hit = time_touched
+		mainScene.state.monkey_combo_count = 1
+	elif time_touched - mainScene.state.monkey_last_hit <= 1000:
+		mainScene.state.monkey_last_hit = time_touched
+		mainScene.state.monkey_combo_count += 1
+		if mainScene.state.monkey_combo_count == 5:
+			random_monkey_effect()
+			mainScene.state.monkey_combo_active = false
+			mainScene.state.monkey_last_hit = time_touched
+			mainScene.state.monkey_combo_count = 0
+	else:
+		mainScene.state.monkey_combo_active = true
+		mainScene.state.monkey_last_hit = time_touched
+		mainScene.state.monkey_combo_count = 1
+	for function in functions:
+		if function.func == Callable(self, "monkey1"):
+			function.text = "COMBO " + str(mainScene.state.monkey_combo_count)
+
+
 # TRIGGERED FUNCTIONS
 
 func flip(params: Dictionary):
